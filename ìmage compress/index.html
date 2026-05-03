@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SQUISH — Image Compressor</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts: Display + Body pairing -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-main">SQUISH</span>
+      <span class="logo-sub">Image Compressor</span>
+    </div>
+    <!-- Dark / Light mode toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+      <span class="toggle-icon sun">☀</span>
+      <span class="toggle-icon moon">☽</span>
+    </button>
+  </header>
+
+  <!-- ========== MAIN CONTENT ========== -->
+  <main class="container">
+
+    <!-- ---- Upload Section ---- -->
+    <section class="upload-section" id="uploadSection">
+      <!-- Drag-and-drop zone -->
+      <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Upload image area">
+        <div class="drop-zone__inner">
+          <div class="drop-icon">
+            <!-- SVG camera/compress icon -->
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="14" width="56" height="40" rx="6" stroke="currentColor" stroke-width="2.5"/>
+              <circle cx="32" cy="34" r="10" stroke="currentColor" stroke-width="2.5"/>
+              <circle cx="32" cy="34" r="4" fill="currentColor"/>
+              <path d="M22 14l4-8h12l4 8" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <circle cx="52" cy="22" r="3" fill="currentColor"/>
+            </svg>
+          </div>
+          <p class="drop-title">Drop your images here</p>
+          <p class="drop-sub">JPG, PNG, WebP — up to 20 MB each</p>
+          <label class="btn btn--primary upload-btn" for="fileInput">
+            Browse Files
+          </label>
+          <!-- Hidden file input — supports multiple files -->
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/jpeg,image/png,image/webp"
+            multiple
+            hidden
+          />
+        </div>
+        <!-- Drag-active overlay text -->
+        <div class="drop-zone__overlay">
+          <p>Release to compress ↓</p>
+        </div>
+      </div>
+
+      <!-- Error message banner -->
+      <div class="error-banner" id="errorBanner" role="alert" aria-live="polite"></div>
+    </section>
+
+    <!-- ---- Controls Bar (hidden until image loaded) ---- -->
+    <section class="controls-bar hidden" id="controlsBar">
+      <div class="control-group">
+        <label class="control-label" for="qualitySlider">
+          Quality
+          <span class="quality-value" id="qualityValue">80%</span>
+        </label>
+        <input
+          type="range"
+          id="qualitySlider"
+          min="1"
+          max="100"
+          value="80"
+          class="quality-slider"
+          aria-label="Compression quality"
+        />
+        <div class="slider-ticks">
+          <span>Max Compression</span>
+          <span>Best Quality</span>
+        </div>
+      </div>
+
+      <div class="control-actions">
+        <!-- Format selector -->
+        <div class="format-group">
+          <span class="control-label">Output Format</span>
+          <div class="format-btns" role="group" aria-label="Output format">
+            <button class="fmt-btn active" data-fmt="image/jpeg">JPG</button>
+            <button class="fmt-btn" data-fmt="image/webp">WebP</button>
+            <button class="fmt-btn" data-fmt="image/png">PNG</button>
+          </div>
+        </div>
+        <!-- Add more images -->
+        <label class="btn btn--ghost" for="fileInput">+ Add More</label>
+      </div>
+    </section>
+
+    <!-- ---- Image Queue (multiple images) ---- -->
+    <section class="image-queue hidden" id="imageQueue">
+      <!-- Image cards injected by JS -->
+    </section>
+
+    <!-- ---- Download All button (shown when multiple) ---- -->
+    <div class="bulk-actions hidden" id="bulkActions">
+      <button class="btn btn--primary btn--lg" id="downloadAllBtn">
+        ↓ Download All Compressed
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <p>All processing happens in your browser — no uploads to any server.</p>
+  </footer>
+
+  <!-- ========== LOADING OVERLAY ========== -->
+  <!-- Shows when batch-compressing -->
+  <div class="loading-overlay hidden" id="loadingOverlay" aria-busy="true" aria-label="Compressing images">
+    <div class="loader-content">
+      <div class="loader-spinner"></div>
+      <p class="loader-text">Squishing pixels…</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
